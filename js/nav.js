@@ -8,7 +8,8 @@ const NAV_HTML = `
     <li><a href="insurance.html">Insurance</a></li>
     <li><a href="rules.html">Road Rules</a></li>
     <li><a href="routes.html">Routes</a></li>
-    <li><a href="contact.html" class="nav-cta">Book Now</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="booking.html" class="nav-cta">Book Now</a></li>
   </ul>
   <div class="nav-hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -35,7 +36,7 @@ const FOOTER_HTML = `
       <h4>Info</h4>
       <ul>
         <li><a href="rules.html">Road Rules</a></li>
-        <li><a href="contact.html">Book Now</a></li>
+        <li><a href="booking.html">Book Now</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </div>
