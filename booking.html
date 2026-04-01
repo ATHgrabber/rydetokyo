@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Your Bike – RYDE TOKYO</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0a0a0a;
+      color: #f0f0f0;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: rgba(0,0,0,0.85);
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 2px; color: #fff; text-decoration: none; }
+    .logo span { color: #e63329; }
+    nav ul { list-style: none; display: flex; gap: 1.8rem; }
+    nav ul a { color: #ccc; text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.2s; }
+    nav ul a:hover { color: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 span { color: #e63329; }
+    .hero p { color: #aaa; font-size: 1rem; }
+
+    /* ── FORM CARD ── */
+    .form-wrap {
+      max-width: 680px;
+      margin: 2rem auto 4rem;
+      padding: 0 1.5rem;
+    }
+
+    .card {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #e63329;
+      text-transform: uppercase;
+      margin: 2rem 0 1rem;
+    }
+    .section-title:first-child { margin-top: 0; }
+
+    .row { display: grid; gap: 1rem; }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 520px) { .row.two { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    label { font-size: 0.82rem; color: #aaa; font-weight: 500; }
+    label .req { color: #e63329; margin-left: 2px; }
+
+    input, select, textarea {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #e63329;
+    }
+    select option { background: #111; }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* ── ADDONS ── */
+    .addons { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
+    .addon-toggle {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .addon-toggle:hover { border-color: #555; }
+    .addon-toggle input[type="checkbox"] { margin-top: 3px; accent-color: #e63329; width: 18px; height: 18px; flex-shrink: 0; }
+    .addon-info { flex: 1; }
+    .addon-name { font-weight: 600; font-size: 0.9rem; }
+    .addon-desc { font-size: 0.78rem; color: #888; margin-top: 0.2rem; line-height: 1.4; }
+    .addon-price { font-size: 0.82rem; color: #e63329; font-weight: 700; margin-top: 0.3rem; }
+
+    /* ── PRICE ESTIMATE ── */
+    .price-box {
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .price-label { font-size: 0.82rem; color: #aaa; }
+    .price-amount { font-size: 1.6rem; font-weight: 800; color: #fff; }
+    .price-note { font-size: 0.72rem; color: #666; margin-top: 0.2rem; }
+
+    /* ── SUBMIT ── */
+    .submit-btn {
+      width: 100%;
+      background: #e63329;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 1rem;
+      margin-top: 2rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .submit-btn:hover { background: #c8271e; }
+    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:disabled { background: #555; cursor: not-allowed; }
+
+    .fine-print {
+      font-size: 0.75rem;
+      color: #666;
+      text-align: center;
+      margin-top: 1rem;
+      line-height: 1.5;
+    }
+
+    /* ── SUCCESS / ERROR ── */
+    .alert {
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      display: none;
+    }
+    .alert.success { background: #0d2e1a; border: 1px solid #1a5c34; color: #5dd98a; }
+    .alert.error   { background: #2e0d0d; border: 1px solid #5c1a1a; color: #f87171; }
+    .alert.show    { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">RYDE<span>.</span>TOKYO</a>
+  <ul>
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="bikes.html">BIKES</a></li>
+    <li><a href="services.html">SERVICES</a></li>
+    <li><a href="booking.html">BOOK NOW</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>BOOK YOUR <span>RIDE</span></h1>
+  <p>We'll deliver to your hotel door — just fill in the details below.</p>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+  <div class="card">
+
+    <div id="alert-success" class="alert success">
+      ✅ <strong>Booking received!</strong> We'll WhatsApp you within a few hours to confirm your delivery details. Check your email for a summary.
+    </div>
+    <div id="alert-error" class="alert error">
+      ❌ <strong>Something went wrong.</strong> Please try again or contact us directly on WhatsApp.
+    </div>
+
+    <form id="booking-form">
+
+      <!-- CONTACT -->
+      <div class="section-title">Your Details</div>
+      <div class="row">
+        <div class="field">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" name="name" placeholder="e.g. John Smith" required />
+        </div>
+      </div>
+      <div class="row two" style="margin-top:1rem;">
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="you@email.com" required />
+        </div>
+        <div class="field">
+          <label>WhatsApp Number <span class="req">*</span></label>
+          <input type="tel" name="whatsapp" placeholder="+1 234 567 8900" required />
+        </div>
+      </div>
+
+      <!-- HOTEL -->
+      <div class="section-title" style="margin-top:2rem;">Delivery Location</div>
+      <div class="row">
+        <div class="field">
+          <label>Hotel Name <span class="req">*</span></label>
+          <input type="text" name="hotel" placeholder="e.g. Park Hyatt Tokyo" required />
+        </div>
+      </div>
+
+      <!-- DATES -->
+      <div class="section-title" style="margin-top:2rem;">Rental Dates</div>
+      <div class="row two">
+        <div class="field">
+          <label>Hotel Check-in Date <span class="req">*</span></label>
+          <input type="date" name="checkin" required />
+        </div>
+        <div class="field">
+          <label>Rental Start Date <span class="req">*</span></label>
+          <input type="date" name="rentalStart" required />
+        </div>
+      </div>
+      <div class="row" style="margin-top:1rem;">
+        <div class="field">
+          <label>Number of Days <span class="req">*</span></label>
+          <select name="days" required id="days-select">
+            <option value="">-- Select --</option>
+            <option value="1">1 day</option>
+            <option value="2">2 days</option>
+            <option value="3">3 days</option>
+            <option value="4">4 days</option>
+            <option value="5">5 days</option>
+            <option value="6">6 days</option>
+            <option value="7">7 days</option>
+            <option value="10">10 days</option>
+            <option value="14">14 days</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- BIKE -->
+      <div class="section-title" style="margin-top:2rem;">Bike Selection</div>
+      <div class="row two">
+        <div class="field">
+          <label>Bike Type <span class="req">*</span></label>
+          <select name="bikeType" required id="bike-select">
+            <option value="">-- Select --</option>
+            <option value="ebike">E-Bike (Giant Escape R E+)</option>
+            <option value="city">City Cycle</option>
+            <option value="kids_balance">Kids Balance Bike (Age 3–5)</option>
+            <option value="kids_city">Kids City Bike (Age 5–8)</option>
+            <option value="kids_junior">Junior Bike (Age 8–12)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantity <span class="req">*</span></label>
+          <select name="quantity" required id="qty-select">
+            <option value="1">1 bike</option>
+            <option value="2">2 bikes</option>
+            <option value="3">3 bikes</option>
+            <option value="4">4 bikes</option>
+            <option value="5">5 bikes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ADD-ONS -->
+      <div class="section-title" style="margin-top:2rem;">Add-Ons</div>
+      <div class="addons">
+        <label class="addon-toggle">
+          <input type="checkbox" name="bikeValet" id="valet-check" />
+          <div class="addon-info">
+            <div class="addon-name">★ Bike Valet</div>
+            <div class="addon-desc">Going for dinner and drinks? WhatsApp us your location — we'll pick up the bike and have it back at your hotel, ready for the morning.</div>
+            <div class="addon-price">+¥1,000 per pickup</div>
+          </div>
+        </label>
+        <label class="addon-toggle">
+          <input type="checkbox" name="damageCover" id="damage-check" />
+          <div class="addon-info">
+            <div class="addon-name">Damage Coverage</div>
+            <div class="addon-desc">Peace of mind for minor scrapes and scratches. Covers accidental damage during your rental period.</div>
+            <div class="addon-price">+¥500 / day</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- PRICE ESTIMATE -->
+      <div class="price-box">
+        <div>
+          <div class="price-label">Estimated Total</div>
+          <div class="price-note">Campaign rate · final price confirmed on WhatsApp</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="price-amount" id="price-display">¥—</div>
+        </div>
+      </div>
+
+      <!-- NOTES -->
+      <div class="section-title" style="margin-top:2rem;">Notes (Optional)</div>
+      <div class="field">
+        <textarea name="notes" placeholder="Preferred delivery time, special requests, accessibility needs..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">REQUEST BOOKING →</button>
+      <p class="fine-print">We'll confirm your booking via WhatsApp within a few hours. No payment required now.</p>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxuSdJq8hwTATZNzH5uBQFdNjmdPTtNwK-BGLfa03e5SKBjCU_za7kGnZGV-zgI8afXXw/exec';
+
+  // ── PRICE CALCULATOR ──
+  const RATES = {
+    ebike:        [5000, 4500, 4200, 4000, 4000, 4000, 3500],
+    city:         [3000, 3000, 3000, 3000, 3000, 3000, 3000],
+    kids_balance: [1500, 1500, 1500, 1500, 1500, 1500, 1500],
+    kids_city:    [2000, 2000, 2000, 2000, 2000, 2000, 2000],
+    kids_junior:  [2500, 2500, 2500, 2500, 2500, 2500, 2500],
+  };
+
+  function getRate(bikeType, days) {
+    const rates = RATES[bikeType];
+    if (!rates) return 0;
+    const idx = Math.min(days - 1, 6);
+    return rates[idx];
+  }
+
+  function calcPrice() {
+    const days     = parseInt(document.getElementById('days-select').value) || 0;
+    const bikeType = document.getElementById('bike-select').value;
+    const qty      = parseInt(document.getElementById('qty-select').value) || 1;
+    const valet    = document.getElementById('valet-check').checked;
+    const damage   = document.getElementById('damage-check').checked;
+
+    if (!days || !bikeType) {
+      document.getElementById('price-display').textContent = '¥—';
+      return;
+    }
+
+    let total = getRate(bikeType, days) * days * qty;
+    if (damage) total += 500 * days * qty;
+    if (valet)  total += 1000;
+
+    document.getElementById('price-display').textContent =
+      '¥' + total.toLocaleString();
+  }
+
+  ['days-select','bike-select','qty-select','valet-check','damage-check']
+    .forEach(id => document.getElementById(id).addEventListener('change', calcPrice));
+
+  // ── SET MIN DATES ──
+  const today = new Date().toISOString().split('T')[0];
+  document.querySelector('[name="checkin"]').min = today;
+  document.querySelector('[name="rentalStart"]').min = today;
+
+  // ── FORM SUBMIT ──
+  document.getElementById('booking-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const successEl = document.getElementById('alert-success');
+    const errorEl   = document.getElementById('alert-error');
+
+    successEl.classList.remove('show');
+    errorEl.classList.remove('show');
+    btn.disabled = true;
+    btn.textContent = 'SENDING…';
+
+    const form = e.target;
+    const payload = {
+      name:        form.name.value.trim(),
+      email:       form.email.value.trim(),
+      whatsapp:    form.whatsapp.value.trim(),
+      hotel:       form.hotel.value.trim(),
+      checkin:     form.checkin.value,
+      rentalStart: form.rentalStart.value,
+      days:        form.days.value,
+      bikeType:    form.bikeType.value,
+      quantity:    form.quantity.value,
+      bikeValet:   form.bikeValet.checked,
+      damageCover: form.damageCover.checked,
+      notes:       form.notes.value.trim(),
+    };
+
+    try {
+      const res = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (json.success) {
+        successEl.classList.add('show');
+        form.reset();
+        document.getElementById('price-display').textContent = '¥—';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error(json.error || 'Unknown error');
+      }
+    } catch(err) {
+      console.error(err);
+      errorEl.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'REQUEST BOOKING →';
+    }
+  });
+</script>
+</body>
+</html>
