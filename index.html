@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RYDE TOKYO — Premium E-Bike Hotel Delivery</title>
+  <meta name="description" content="Premium e-bikes delivered to your Tokyo hotel. Explore the city at your own pace. Hotel delivery, GPS, English support included.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 80px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.75) 0%,
+        rgba(0,0,0,0.2) 50%,
+        rgba(0,0,0,0.1) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 6%;
+      width: 100%;
+    }
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-content h1 span { color: #7ecf9a; }
+    .hero-content p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.82);
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .hero-meta-item strong {
+      display: block;
+      color: #fff;
+      font-size: 1.4rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ── PHOTO STRIP ── */
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 280px;
+      overflow: hidden;
+    }
+    .photo-strip-item {
+      position: relative;
+      overflow: hidden;
+    }
+    .photo-strip-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .photo-strip-item:hover img { transform: scale(1.06); }
+    .photo-strip-item .label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 1rem 0.75rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── STEPS ── */
+    .steps-section {
+      padding: 6rem 6%;
+      background: var(--off-white);
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 3.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .step-box {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .step-box:last-child { border-right: none; }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--accent);
+      line-height: 1;
+      margin-bottom: 1.25rem;
+    }
+    .step-box h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.6rem;
+    }
+    .step-box p {
+      font-size: 0.92rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+    .step-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .step-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 2; }
+
+    /* ── BIKE SHOWCASE ── */
+    .bike-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+    }
+    .bike-showcase-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .bike-showcase-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .bike-showcase-body {
+      background: var(--off-black);
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ── COURSE GRID ── */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .course-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+    .course-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .course-card:hover img { transform: scale(1.05); }
+    .course-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 60%);
+    }
+    .course-card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.75rem;
+      z-index: 2;
+    }
+    .course-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: 2px;
+      background: var(--accent);
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+    .course-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: #fff;
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+    }
+    .course-card-body p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ── INCLUDES STRIP ── */
+    .includes-strip {
+      background: var(--off-black);
+      padding: 4rem 6%;
+    }
+    .includes-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .inc {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+    }
+    .inc-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .inc h4 { font-size: 0.88rem; font-weight: 600; color: #fff; margin-bottom: 0.3rem; }
+    .inc p { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+    /* ── PRICING ── */
+    .pricing-section {
+      padding: 6rem 6%;
+    }
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      max-width: 760px;
+    }
+    .p-card {
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+    .p-card.featured {
+      border-color: var(--accent);
+    }
+    .p-card .badge {
+      position: absolute;
+      top: -12px;
+      left: 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+    }
+    .p-card .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1;
+      margin: 0.5rem 0;
+    }
+    .p-card .price-sub { font-size: 1rem; font-family: 'Inter',sans-serif; color: var(--mid); }
+    .p-card .period { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.5rem; }
+    .p-card .desc { font-size: 0.9rem; color: var(--mid); margin-top: 0.75rem; line-height: 1.6; }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--accent);
+      padding: 5rem 6%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 3rem;
+    }
+    .cta-band h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: #fff;
+      line-height: 1.2;
+    }
+    .cta-band p { color: rgba(255,255,255,0.8); margin-top: 0.5rem; font-size: 1rem; }
+    .cta-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-white { background: #fff; color: var(--accent); font-weight: 700; }
+    .btn-white:hover { background: var(--off-white); }
+    .btn-outline-white { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); }
+    .btn-outline-white:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      .photo-strip { grid-template-columns: repeat(2,1fr); height: 220px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .step-box { border-right: none; border-bottom: 1px solid var(--border); }
+      .step-box:last-child { border-bottom: none; }
+      .bike-showcase { grid-template-columns: 1fr; }
+      .bike-showcase-body { padding: 3rem 2rem; }
+      .course-grid { grid-template-columns: 1fr; }
+      .includes-row { grid-template-columns: repeat(3,1fr); }
+      .pricing-cards { grid-template-columns: 1fr; }
+      .cta-band { grid-template-columns: 1fr; }
+    }
+    @media(max-width:580px) {
+      .photo-strip { grid-template-columns: 1fr 1fr; height: 180px; }
+      .includes-row { grid-template-columns: repeat(2,1fr); }
+      .hero-content h1 { font-size: 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<!-- ═══ HERO ════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <img
+      src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1800&q=85"
+      alt="Tokyo skyline at night"
+      loading="eager">
+  </div>
+  <div class="hero-content reveal">
+    <h1>Ride Tokyo.<br><span>Your way.</span></h1>
+    <p>A premium e-bike delivered to your hotel door every morning. No queues, no rental shops. Just Tokyo — explored at your pace.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="contact.html" class="btn btn-primary" style="font-size:0.92rem;padding:0.9rem 2.2rem">
+        Book via WhatsApp
+      </a>
+      <a href="services.html" class="btn btn-outline" style="font-size:0.92rem;padding:0.9rem 2.2rem">
+        See Pricing →
+      </a>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>¥5,000</strong>Launch rate/day</div>
+      <div class="hero-meta-item"><strong>8am</strong>Hotel delivery</div>
+      <div class="hero-meta-item"><strong>200km</strong>Battery range</div>
+      <div class="hero-meta-item"><strong>EN</strong>Full English support</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHOTO STRIP ══════════════════════════════════════ -->
+<div class="photo-strip">
+  <div class="photo-strip-item">
+    <img src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=600&q=80" alt="Asakusa">
+    <div class="label">Asakusa</div>
+  </div>
+  <div class="photo-strip-item">
+    <img src="https://images.unsplash.com/photo-1480796927426-f609979314bd?w=600&q=80" alt="Imperial Palace">
+    <div class="label">Imperial Palace</div>
+  </div>
+  <div class="photo-strip-item">
+    <img src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=600&q=80" alt="Shibuya">
+    <div class="label">Shibuya</div>
+  </div>
+  <div class="photo-strip-item">
+    <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=600&q=80" alt="Yanaka">
+    <div class="label">Yanaka</div>
+  </div>
+</div>
+
+<!-- ═══ HOW IT WORKS ══════════════════════════════════════ -->
+<div class="steps-section">
+  <p class="section-tag">How It Works</p>
+  <h2 class="section-title">Three steps. Then just ride.</h2>
+  <div class="steps-grid reveal">
+    <div class="step-box">
+      <div class="step-num">01</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>Book in advance</h3>
+      <p>Message us on WhatsApp, email, or Instagram DM. Tell us your hotel, date, and number of bikes.</p>
+    </div>
+    <div class="step-box">
+      <div class="step-num">02</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <h3>Delivered to your hotel</h3>
+      <p>Your Giant Escape E-bike arrives fully charged at your hotel entrance by 8am. Helmet and lock included.</p>
+    </div>
+    <div class="step-box">
+      <div class="step-num">03</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></div>
+      <h3>Return anywhere</h3>
+      <p>Drop off at your hotel, a station, or anywhere in the city. Photo + GPS location and we'll collect.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BIKE SHOWCASE ═════════════════════════════════════ -->
+<div class="bike-showcase">
+  <div class="bike-showcase-img">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85" alt="Giant Escape R E+ e-bike">
+  </div>
+  <div class="bike-showcase-body reveal">
+    <p class="section-tag" style="color:#7ecf9a">Our Bike</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2.4rem;color:#fff;line-height:1.15;margin-bottom:1rem">Giant Escape R E+</h2>
+    <p style="color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:2rem">Japan's best city e-bike. The SyncDrive Core motor (co-developed with Yamaha) is whisper-quiet and perfectly tuned for flat Tokyo streets. 200km range in ECO mode — more than enough for a full day of exploring.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem">
+      <div style="padding:1rem;background:rgba(255,255,255,0.06);border-radius:4px;border:1px solid rgba(255,255,255,0.1)">
+        <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.3rem">Battery range</div>
+        <div style="font-size:1.5rem;font-weight:700;color:#7ecf9a;font-family:'Playfair Display',serif">200 km</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.5)">ECO mode</div>
+      </div>
+      <div style="padding:1rem;background:rgba(255,255,255,0.06);border-radius:4px;border:1px solid rgba(255,255,255,0.1)">
+        <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.3rem">Motor</div>
+        <div style="font-size:1.1rem;font-weight:700;color:#fff">SyncDrive Core</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Yamaha co-developed</div>
+      </div>
+      <div style="padding:1rem;background:rgba(255,255,255,0.06);border-radius:4px;border:1px solid rgba(255,255,255,0.1)">
+        <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.3rem">Tyres</div>
+        <div style="font-size:1rem;font-weight:700;color:#fff">Marathon Plus</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Puncture-resistant</div>
+      </div>
+      <div style="padding:1rem;background:rgba(255,255,255,0.06);border-radius:4px;border:1px solid rgba(255,255,255,0.1)">
+        <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.3rem">Brakes</div>
+        <div style="font-size:1rem;font-weight:700;color:#fff">Hydraulic Disc</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Shimano 9-speed</div>
+      </div>
+    </div>
+    <a href="bikes.html" class="btn btn-primary">Full specs →</a>
+  </div>
+</div>
+
+<!-- ═══ COURSES ════════════════════════════════════════════ -->
+<section style="padding:6rem 6%">
+  <p class="section-tag">Tokyo Cycling Courses</p>
+  <h2 class="section-title">Where will you ride today?</h2>
+  <p class="section-sub">Every rental includes our route guide. Here are our favourites.</p>
+  <div class="course-grid reveal">
+    <a href="routes.html" class="course-card" style="text-decoration:none">
+      <img src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=800&q=80" alt="Asakusa Sumida River">
+      <div class="course-card-body">
+        <span class="course-badge">Easy · 22km</span>
+        <h3>Asakusa → Odaiba</h3>
+        <p>Sumida River path · Skytree views · Rainbow Bridge</p>
+      </div>
+    </a>
+    <a href="routes.html" class="course-card" style="text-decoration:none">
+      <img src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800&q=80" alt="Shibuya Nakameguro">
+      <div class="course-card-body">
+        <span class="course-badge">Moderate · 18km</span>
+        <h3>Shibuya → Nakameguro → Shimokitazawa</h3>
+        <p>Canal route · Hip cafés · Vintage shops</p>
+      </div>
+    </a>
+    <a href="routes.html" class="course-card" style="text-decoration:none">
+      <img src="https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&q=80" alt="Imperial Palace">
+      <div class="course-card-body">
+        <span class="course-badge">Easy · 15km</span>
+        <h3>Imperial Palace Loop</h3>
+        <p>Tokyo's green heart · Best on Sunday mornings</p>
+      </div>
+    </a>
+    <a href="routes.html" class="course-card" style="text-decoration:none">
+      <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&q=80" alt="Yanaka Old Town">
+      <div class="course-card-body">
+        <span class="course-badge">Easy · 12km</span>
+        <h3>Yanaka → Ueno — Old Tokyo</h3>
+        <p>Historic streets · Temples · Shitamachi atmosphere</p>
+      </div>
+    </a>
+  </div>
+  <div style="margin-top:2rem">
+    <a href="routes.html" class="btn btn-ghost">View all routes →</a>
+  </div>
+</section>
+
+<!-- ═══ WHAT'S INCLUDED ═══════════════════════════════════ -->
+<div class="includes-strip">
+  <p class="section-tag" style="color:#7ecf9a;text-align:center">All Inclusive</p>
+  <h2 style="font-family:'Playfair Display',serif;font-size:2rem;color:#fff;text-align:center;margin-bottom:0">Everything in the price</h2>
+  <div class="includes-row reveal">
+    <div class="inc"><span class="inc-icon">🚲</span><h4>Premium e-bike</h4><p>Giant Escape R E+</p></div>
+    <div class="inc"><span class="inc-icon">🏨</span><h4>Hotel delivery</h4><p>By 8am, to your door</p></div>
+    <div class="inc"><span class="inc-icon">⛑️</span><h4>Helmet + Lock</h4><p>Clean, sized for you</p></div>
+    <div class="inc"><span class="inc-icon">🗺️</span><h4>Route map</h4><p>Our curated Tokyo picks</p></div>
+    <div class="inc"><span class="inc-icon">💬</span><h4>English support</h4><p>WhatsApp all day</p></div>
+  </div>
+</div>
+
+<!-- ═══ PRICING ════════════════════════════════════════════ -->
+<section class="pricing-section">
+  <p class="section-tag">Pricing</p>
+  <h2 class="section-title">Simple & transparent</h2>
+  <p class="section-sub">One daily rate. No deposit, no hidden fees.</p>
+  <div class="pricing-cards reveal">
+    <div class="p-card featured">
+      <div class="badge">🎉 Launch Campaign</div>
+      <div class="period">Per day</div>
+      <div class="price">¥5,000<span class="price-sub">/day</span></div>
+      <div class="desc">First 3 months only. Lock in the launch rate now — limited bikes available.</div>
+      <a href="contact.html" class="btn btn-primary" style="margin-top:1.5rem;width:100%;justify-content:center">Book at ¥5,000 →</a>
+    </div>
+    <div class="p-card">
+      <div class="period">Regular rate</div>
+      <div class="price">¥7,000<span class="price-sub">/day</span></div>
+      <div class="desc">Full-service rate. Same great experience, same all-inclusive package.</div>
+      <a href="services.html" class="btn btn-ghost" style="margin-top:1.5rem;width:100%;justify-content:center">See what's included →</a>
+    </div>
+  </div>
+  <p style="font-size:0.84rem;color:var(--mid);margin-top:1.25rem">Multi-day discounts available. Ask when booking.</p>
+</section>
+
+<!-- ═══ CTA BAND ══════════════════════════════════════════ -->
+<div class="cta-band">
+  <div>
+    <h2>Your hotel. 8am.<br>Charged and ready.</h2>
+    <p>Book via WhatsApp, email, or Instagram DM — we confirm within the hour.</p>
+  </div>
+  <div class="cta-buttons">
+    <a href="https://wa.me/819000000000" class="btn btn-white">WhatsApp Us</a>
+    <a href="mailto:hello@rydetokyo.com" class="btn btn-outline-white">Email</a>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
