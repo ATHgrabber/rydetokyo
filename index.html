@@ -82,13 +82,25 @@
     }
 
     /* ── PHOTO STRIP ── */
+    @keyframes photoSlide {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
     .photo-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
       height: 280px;
       overflow: hidden;
     }
+    .photo-strip-track {
+      display: flex;
+      height: 100%;
+      animation: photoSlide 24s linear infinite;
+    }
+    .photo-strip-track:hover {
+      animation-play-state: paused;
+    }
     .photo-strip-item {
+      flex: 0 0 25vw;
+      width: 25vw;
       position: relative;
       overflow: hidden;
     }
@@ -98,7 +110,7 @@
       object-fit: cover;
       transition: transform 0.5s ease;
     }
-    .photo-strip-item:hover img { transform: scale(1.06); }
+    .photo-strip-track:hover .photo-strip-item img { transform: scale(1.06); }
     .photo-strip-item .label {
       position: absolute;
       bottom: 0;
@@ -337,7 +349,8 @@
 
     /* ── RESPONSIVE ── */
     @media(max-width:900px) {
-      .photo-strip { grid-template-columns: repeat(2,1fr); height: 220px; }
+      .photo-strip { height: 220px; }
+      .photo-strip-item { flex: 0 0 50vw; width: 50vw; }
       .steps-grid { grid-template-columns: 1fr; }
       .step-box { border-right: none; border-bottom: 1px solid var(--border); }
       .step-box:last-child { border-bottom: none; }
@@ -349,7 +362,8 @@
       .cta-band { grid-template-columns: 1fr; }
     }
     @media(max-width:580px) {
-      .photo-strip { grid-template-columns: 1fr 1fr; height: 180px; }
+      .photo-strip { height: 180px; }
+      .photo-strip-item { flex: 0 0 75vw; width: 75vw; }
       .includes-row { grid-template-columns: repeat(2,1fr); }
       .hero-content h1 { font-size: 2.6rem; }
     }
@@ -389,21 +403,40 @@
 
 <!-- ═══ PHOTO STRIP ══════════════════════════════════════ -->
 <div class="photo-strip">
-  <div class="photo-strip-item">
-    <img src="https://images.unsplash.com/photo-1547251808-66d1db460ce0?w=600&q=80" alt="Asakusa">
-    <div class="label">Asakusa</div>
-  </div>
-  <div class="photo-strip-item">
-    <img src="https://images.unsplash.com/photo-1733003062878-fb9035d00373?w=600&q=80" alt="Imperial Palace">
-    <div class="label">Imperial Palace</div>
-  </div>
-  <div class="photo-strip-item">
-    <img src="https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=600&q=80" alt="Nakameguro">
-    <div class="label">Nakameguro</div>
-  </div>
-  <div class="photo-strip-item">
-    <img src="https://images.unsplash.com/photo-1770005164438-c25c019e3591?w=600&q=80" alt="Yanaka">
-    <div class="label">Yanaka</div>
+  <div class="photo-strip-track">
+    <div class="photo-strip-item">
+      <img src="https://images.unsplash.com/photo-1547251808-66d1db460ce0?w=600&q=80" alt="Asakusa">
+      <div class="label">Asakusa</div>
+    </div>
+    <div class="photo-strip-item">
+      <img src="https://images.unsplash.com/photo-1733003062878-fb9035d00373?w=600&q=80" alt="Imperial Palace">
+      <div class="label">Imperial Palace</div>
+    </div>
+    <div class="photo-strip-item">
+      <img src="https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=600&q=80" alt="Nakameguro">
+      <div class="label">Nakameguro</div>
+    </div>
+    <div class="photo-strip-item">
+      <img src="https://images.unsplash.com/photo-1770005164438-c25c019e3591?w=600&q=80" alt="Yanaka">
+      <div class="label">Yanaka</div>
+    </div>
+    <!-- duplicates for seamless loop -->
+    <div class="photo-strip-item" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1547251808-66d1db460ce0?w=600&q=80" alt="">
+      <div class="label">Asakusa</div>
+    </div>
+    <div class="photo-strip-item" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1733003062878-fb9035d00373?w=600&q=80" alt="">
+      <div class="label">Imperial Palace</div>
+    </div>
+    <div class="photo-strip-item" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=600&q=80" alt="">
+      <div class="label">Nakameguro</div>
+    </div>
+    <div class="photo-strip-item" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1770005164438-c25c019e3591?w=600&q=80" alt="">
+      <div class="label">Yanaka</div>
+    </div>
   </div>
 </div>
 
@@ -491,7 +524,7 @@
       </div>
     </a>
     <a href="routes.html" class="course-card" style="text-decoration:none">
-      <img src="https://images.unsplash.com/photo-1733003062878-fb9035d00373?w=800&q=80" alt="Imperial Palace">
+      <img src="https://images.unsplash.com/photo-1733003062878-fb9035d00373?w=800&q=80" alt="Imperial Palace">
       <div class="course-card-body">
         <span class="course-badge">Easy · 15km</span>
         <h3>Imperial Palace Loop</h3>
@@ -536,7 +569,7 @@
       <div class="period">Per day</div>
       <div class="price">¥5,000<span class="price-sub">/day</span></div>
       <div class="desc">First 3 months only. Lock in the launch rate now — limited bikes available.</div>
-      <a href="contact.html" class="btn btn-primary" style="margin-top:1.5rem;width:100%;justify-content:center">Book at ¥5,000 →</a>
+      <a href="contact.html" class="btn btn-primary" style="margin-top:1.5rem;width:100%;justify-content:center">Book at ¥5,000  →</a>
     </div>
     <div class="p-card">
       <div class="period">Regular rate</div>
@@ -561,7 +594,6 @@
 </div>
 
 <div id="footer-placeholder"></div>
-<script src="js/nav.js"></script>
-<script src="js/main.js"></script>
+<script src="js/nav.js"></script><script src="js/main.js"></script>
 </body>
 </html>
