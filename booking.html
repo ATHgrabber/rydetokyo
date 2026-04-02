@@ -19,6 +19,10 @@
     .hero {
       text-align: center;
       padding: 4rem 2rem 2rem;
+      min-height: auto;
+      display: block;
+      position: static;
+      overflow: visible;
     }
     .hero h1 {
       font-size: 2.4rem;
@@ -293,7 +297,7 @@
         <textarea name="notes" placeholder="Preferred delivery time, special requests, accessibility needs..."></textarea>
       </div>
 
-      <button type="submit" class="submit-btn" id="submit-btn">REQUEST BOOKING &rarr;</button>
+      <button type="submit" class="submit-btn" id="submit-btn">REQUEST BOOKING →</button>
       <p class="fine-print">We'll confirm your booking via WhatsApp within a few hours. No payment required now.</p>
 
     </form>
@@ -303,6 +307,7 @@
 <script>
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxuSdJq8hwTATZNzH5uBQFdNjmdPTtNwK-BGLfa03e5SKBjCU_za7kGnZGV-zgI8afXXw/exec';
 
+  // ── PRICE CALCULATOR ──
   const RATES = {
     ebike:        [5000, 4500, 4200, 4000, 4000, 4000, 3500],
     city:         [3000, 3000, 3000, 3000, 3000, 3000, 3000],
@@ -314,46 +319,85 @@
   function getRate(bikeType, days) {
     const rates = RATES[bikeType];
     if (!rates) return 0;
-    return rates[Math.min(days - 1, 6)];
+    const idx = Math.min(days - 1, 6);
+    return rates[idx];
   }
 
   function calcPrice() {
     const days     = parseInt(document.getElementById('days-select').value) || 0;
     const bikeType = document.getElementById('bike-select').value;
     const qty      = parseInt(document.getElementById('qty-select').value) || 1;
-    if (!days || !bikeType) { document.getElementById('price-display').textContent = '¥—'; return; }
+    const valet    = document.getElementById('valet-check').checked;
+    const damage   = document.getElementById('damage-check').checked;
+
+    if (!days || !bikeType) {
+      document.getElementById('price-display').textContent = '¥—';
+      return;
+    }
+
     let total = getRate(bikeType, days) * days * qty;
-    if (document.getElementById('damage-check').checked) total += 500 * days * qty;
-    if (document.getElementById('valet-check').checked)  total += 1000;
-    document.getElementById('price-display').textContent = '¥' + total.toLocaleString();
+    if (damage) total += 500 * days * qty;
+    if (valet)  total += 1000;
+
+    document.getElementById('price-display').textContent =
+      '¥' + total.toLocaleString();
   }
 
   ['days-select','bike-select','qty-select','valet-check','damage-check']
     .forEach(id => document.getElementById(id).addEventListener('change', calcPrice));
 
-  document.querySelector('[name="rentalStart"]').min = new Date().toISOString().split('T')[0];
+  // ── SET MIN DATES ──
+  const today = new Date().toISOString().split('T')[0];
+  document.querySelector('[name="rentalStart"]').min = today;
 
+  // ── FORM SUBMIT ──
   document.getElementById('booking-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = document.getElementById('submit-btn');
-    const ok  = document.getElementById('alert-success');
-    const err = document.getElementById('alert-error');
-    ok.classList.remove('show'); err.classList.remove('show');
-    btn.disabled = true; btn.textContent = 'SENDING…';
-    const f = e.target;
+    const successEl = document.getElementById('alert-success');
+    const errorEl   = document.getElementById('alert-error');
+
+    successEl.classList.remove('show');
+    errorEl.classList.remove('show');
+    btn.disabled = true;
+    btn.textContent = 'SENDING…';
+
+    const form = e.target;
     const payload = {
-      name: f.name.value.trim(), email: f.email.value.trim(), whatsapp: f.whatsapp.value.trim(),
-      hotel: f.hotel.value.trim(), rentalStart: f.rentalStart.value, days: f.days.value,
-      bikeType: f.bikeType.value, quantity: f.quantity.value,
-      bikeValet: f.bikeValet.checked, damageCover: f.damageCover.checked, notes: f.notes.value.trim(),
+      name:        form.name.value.trim(),
+      email:       form.email.value.trim(),
+      whatsapp:    form.whatsapp.value.trim(),
+      hotel:       form.hotel.value.trim(),
+      rentalStart: form.rentalStart.value,
+      days:        form.days.value,
+      bikeType:    form.bikeType.value,
+      quantity:    form.quantity.value,
+      bikeValet:   form.bikeValet.checked,
+      damageCover: form.damageCover.checked,
+      notes:       form.notes.value.trim(),
     };
+
     try {
-      const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const res = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
       const json = await res.json();
-      if (json.success) { ok.classList.add('show'); f.reset(); document.getElementById('price-display').textContent = '¥—'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
-      else throw new Error(json.error || 'Unknown error');
-    } catch(e2) { console.error(e2); err.classList.add('show'); }
-    finally { btn.disabled = false; btn.textContent = 'REQUEST BOOKING →'; }
+      if (json.success) {
+        successEl.classList.add('show');
+        form.reset();
+        document.getElementById('price-display').textContent = '¥—';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error(json.error || 'Unknown error');
+      }
+    } catch(err) {
+      console.error(err);
+      errorEl.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'REQUEST BOOKING →';
+    }
   });
 </script>
 
