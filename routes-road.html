@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Road Cycling Routes — RYDE TOKYO</title>
+  <meta name="description" content="Japan's best road cycling routes. From Tokyo's Tama River to Shimanami Kaido and Aso — curated for road bike riders.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .coming-soon-banner {
+      background: linear-gradient(135deg, #1a2e20, #2d5a3d);
+      color: #fff;
+      text-align: center;
+      padding: 1rem 2rem;
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+    }
+    .coming-soon-banner strong { color: #7ecf9a; }
+
+    .region-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 4rem 6% 2rem;
+    }
+    .region-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--black);
+      margin: 0;
+    }
+    .region-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      color: var(--mid);
+    }
+    .region-divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .difficulty-hard { background: #fdecea; color: #b71c1c; }
+
+    .route-map {
+      width: 100%;
+      height: 280px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+    }
+    .route-map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    @media(max-width:700px){
+      .route-card { grid-template-columns: 1fr !important; }
+      .route-map { height: 220px; }
+      .region-header { margin: 3rem 4% 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<div class="coming-soon-banner">
+  🚴 <strong>Road Bike Rental</strong> — Launching soon. Routes are ready. Bikes are coming.
+</div>
+<div class="page-hero">
+  <p class="section-tag">Road Cycling Routes</p>
+  <h1 class="section-title">Japan's greatest<br>road rides.</h1>
+  <p class="section-sub">From Olympic mountain passes to island-hopping bridges and volcanic plateaus — the routes that define road cycling in Japan.</p>
+</div>
+
+<section style="padding: 0 0 5rem">
+
+  <!-- ── 関東 ─────────────────────────────── -->
+  <div class="region-header">
+    <span class="region-badge">関東 · Kanto</span>
+    <h2>Tokyo & Surrounds</h2>
+    <div class="region-divider"></div>
+  </div>
+
+  <!-- Route 1: Tama River -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1537320215010-ca42f4fff296?w=600&q=80" alt="Cycling under cherry blossoms Tama River">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-easy">Easy</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">多摩川サイクリングロード</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 48 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2–3 hours</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Completely flat</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">Tokyo's most-loved dedicated cycling road. Follow the Tama River from Tachikawa all the way to the sea at Kawasaki — 48km of smooth, car-free tarmac through riverside parks, under cherry blossom tunnels, and past the wetlands of Kawasaki. Ideal for a first long ride or a relaxed spin with great scenery.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Car-free path</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Cherry blossoms</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Beginner-friendly</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">River views</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Tachikawa+Bridge+Tama+River+Tokyo&daddr=Kawasaki+Kanagawa&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Tachikawa+Bridge+Tama+River+Tokyo&destination=Kawasaki+Kanagawa&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>
+  </div>
+
+  <!-- Route 2: Doshi Road (Olympic) -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1591873381631-4104d6e7d105?w=600&q=80" alt="Mountain road with Mt Fuji background">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-hard">Hard</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">道志道 — Tokyo 2020 Olympic Route</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 138 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 5–7 hours</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> 2,000m+ elevation</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">This is the route that crowned Olympic champion Richard Carapaz. Starting from Musashino Forest Park in western Tokyo, the road climbs through the deep mountain forests of Doshi valley, cresting the Fuji Five Lakes plateau with breathtaking views of Mount Fuji before finishing at the iconic Fuji International Speedway. A bucket-list ride for serious cyclists.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Olympic route</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Mt. Fuji views</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Mountain climb</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Bucket list</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Musashino+Forest+Park+Tokyo&daddr=Doshi+Village+Yamanashi+to:Lake+Yamanaka+Yamanashi&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Musashino+Forest+Park+Tokyo&destination=Lake+Yamanaka+Yamanashi&waypoints=Doshi+Village+Yamanashi&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>
+  </div>
+
+  <!-- Route 3: Miura Peninsula -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1652786468745-8d8cd8c32cd4?w=600&q=80" alt="Rocky coastline Miura Peninsula">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-medium">Moderate</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">三浦半島一周 — Miura Peninsula Loop</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 55 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 3–4 hours</span>        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Rolling coastal</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">A classic weekend escape from Tokyo. The Miura Peninsula juts into Sagami Bay with dramatic cliffs, hidden coves, and on clear days, an unobstructed view of Mount Fuji across the water. Loop the peninsula from Yokosuka, passing Misaki tuna port and the surfer beaches of Hayama. Accessible by train from Shinagawa in under an hour.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Coastal</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Mt. Fuji views</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Seafood stops</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Day trip</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Yokosuka+Station+Kanagawa&daddr=Misaki+Port+Miura+to:Hayama+Kanagawa+to:Yokosuka+Station+Kanagawa&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Yokosuka+Station+Kanagawa&destination=Yokosuka+Station+Kanagawa&waypoints=Misaki+Port+Miura|Hayama+Kanagawa&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>
+  </div>
+
+  <!-- ── 四国 ─────────────────────────────── -->
+  <div class="region-header">
+    <span class="region-badge">四国 · Shikoku</span>
+    <h2>Shikoku Island</h2>
+    <div class="region-divider"></div>
+  </div>
+
+  <!-- Route 4: Shimanami Kaido -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1774705809362-a74a577350d5?w=600&q=80" alt="Shimanami Kaido bridge between islands">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-easy">Easy</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">しまなみ海道 — Shimanami Kaido</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 70 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4–5 hours</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Gentle bridges</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">Voted one of the world's greatest cycling routes. The Shimanami Kaido connects Onomichi in Hiroshima to Imabari in Ehime via six islands and a series of spectacular suspension bridges across the Seto Inland Sea. The cycling lanes are dedicated and well-signed in English — a rare and genuinely magical experience. Lemon farms, island villages, and turquoise water all the way.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">World-class route</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Island hopping</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Sea views</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">English-signed</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Onomichi+Hiroshima&daddr=Innoshima+Hiroshima+to:Omishima+Ehime+to:Imabari+Ehime&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Onomichi+Hiroshima&destination=Imabari+Ehime&waypoints=Innoshima+Hiroshima|Omishima+Ehime&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>
+  </div>
+
+  <!-- Route 5: Shimanto River -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1714853463491-b30781cb54b3?w=600&q=80" alt="Shimanto River through lush green forest">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-easy">Easy</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">四万十川サイクリング — Shimanto River</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 40 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2.5–3.5 hours</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Flat riverside</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">Japan's last pristine river. The Shimanto flows through Kochi Prefecture in near-perfect wilderness — no dams, no development, just clear water, traditional submersible bridges (chinkabashi), and deep green forest. The riverside cycling path is quiet, completely flat, and utterly serene. A complete contrast to city riding and unlike anywhere else in Japan.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Pristine nature</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Riverside path</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Quiet roads</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Shikoku escape</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Nakamura+Shimanto+Kochi&daddr=Shimanto+River+Kochi+to:Tosa+Shimizu+Kochi&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Nakamura+Shimanto+Kochi&destination=Tosa+Shimizu+Kochi&waypoints=Shimanto+River+Kochi&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>  </div>
+
+  <!-- ── 九州 ─────────────────────────────── -->
+  <div class="region-header">
+    <span class="region-badge">九州 · Kyushu</span>
+    <h2>Kyushu Island</h2>
+    <div class="region-divider"></div>
+  </div>
+
+  <!-- Route 6: Aso Panorama Line -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1526383908167-3426a4c1c67a?w=600&q=80" alt="Aerial view of Aso volcano and rolling hills">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-hard">Hard</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">阿蘇パノラマライン — Aso Panorama Road</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 75 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4–6 hours</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Volcanic climbs</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">Cycling inside an active volcano caldera is as dramatic as it sounds. The Aso Panorama Line loops the rim of one of the world's largest calderas, with sweeping grassland views, steam venting from Mount Nakadake, and long open roads that feel like the surface of another planet. The climbs are real, but the descents and vistas make every metre worthwhile.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Active volcano</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Panoramic views</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Open grasslands</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Memorable climb</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Aso+Station+Kumamoto&daddr=Mount+Nakadake+Aso+to:Aso+Farmland+Kumamoto+to:Aso+Station+Kumamoto&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Aso+Station+Kumamoto&destination=Aso+Station+Kumamoto&waypoints=Mount+Nakadake+Aso|Aso+Farmland+Kumamoto&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>
+  </div>
+
+  <!-- Route 7: Yufuin to Beppu -->
+  <div class="route-card reveal" style="margin: 0 6% 2rem">
+    <img class="route-card-img" src="https://images.unsplash.com/photo-1624517608599-7ee67458a3da?w=600&q=80" alt="Yufuin town street with mountain backdrop">
+    <div class="route-card-body">
+      <span class="difficulty difficulty-medium">Moderate</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--black);margin-bottom:0.75rem">由布院 → 別府 — Yufuin to Beppu</h2>
+      <div class="route-meta">
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 28 km</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1.5–2.5 hours</span>
+        <span class="route-meta-item"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Downhill finish</span>
+      </div>
+      <p style="font-size:0.95rem;color:var(--mid);line-height:1.7;margin-bottom:1rem">Start in the misty onsen village of Yufuin beneath Mount Yufu, then descend through rolling countryside and bamboo forests to the steaming hot-spring city of Beppu and the coast of Beppu Bay. It's a short ride but packs in everything: mountain scenery, rural Japan, and a dramatic arrival at one of the country's most famous resort towns. Finish with a hot spring soak — you've earned it.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Onsen town</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Downhill descent</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Scenic countryside</span>
+        <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Short & sweet</span>
+      </div>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Yufuin+Station+Oita&daddr=Beppu+Station+Oita&dirflg=b&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Yufuin+Station+Oita&destination=Beppu+Station+Oita&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- NOTIFY -->
+<section style="background:var(--off-black);padding:5rem 5%;text-align:center">
+  <p class="section-tag" style="color:#7ecf9a">Road Bikes Coming Soon</p>
+  <h2 class="section-title" style="color:#fff;margin-bottom:1rem">Be the first to know.</h2>
+  <p style="color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto 2.5rem;line-height:1.7">We're launching road bike rental in 2025. Drop us a message on WhatsApp and we'll notify you when bookings open — plus send you the full route guide PDF.</p>
+  <a href="https://wa.me/819000000000" class="btn btn-primary">Message us on WhatsApp →</a>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
