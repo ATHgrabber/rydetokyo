@@ -6,6 +6,26 @@
   <title>Tokyo Cycling Routes — RYDE TOKYO</title>
   <meta name="description" content="The best cycling routes in Tokyo. Riverside, historic, park routes for e-bike riders.">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .route-map {
+      width: 100%;
+      height: 280px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+    }
+    .route-map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    @media(max-width:700px){
+      .route-card { grid-template-columns: 1fr !important; }
+      .route-map { height: 220px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -40,7 +60,15 @@
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Views</span>
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Family-friendly</span>
       </div>
-      <a href="https://maps.app.goo.gl/" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Senso-ji+Temple+Asakusa+Tokyo&daddr=Tokyo+Skytree+to:Odaiba+Tokyo&dirflg=b&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Senso-ji+Temple+Asakusa+Tokyo&destination=Odaiba+Tokyo&waypoints=Tokyo+Skytree&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
     </div>
   </div>
 
@@ -62,7 +90,15 @@
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Shopping</span>
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Café stops</span>
       </div>
-      <a href="https://maps.app.goo.gl/" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Shibuya+Crossing+Tokyo&daddr=Daikanyama+Tokyo+to:Nakameguro+Tokyo+to:Shimokitazawa+Tokyo&dirflg=b&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Shibuya+Crossing+Tokyo&destination=Shimokitazawa+Tokyo&waypoints=Daikanyama+Tokyo|Nakameguro+Tokyo&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
     </div>
   </div>
 
@@ -84,7 +120,15 @@
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Central Tokyo</span>
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Best Sundays</span>
       </div>
-      <a href="https://maps.app.goo.gl/" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Imperial+Palace+Tokyo&daddr=Marunouchi+Tokyo+to:Imperial+Palace+Tokyo&dirflg=b&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Imperial+Palace+Tokyo&destination=Imperial+Palace+Tokyo&waypoints=Marunouchi+Tokyo&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
     </div>
   </div>
 
@@ -106,7 +150,15 @@
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Old Tokyo</span>
         <span style="font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;background:var(--off-white);border:1px solid var(--border);border-radius:2px">Photography</span>
       </div>
-      <a href="https://maps.app.goo.gl/" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
+      <div class="route-map">
+        <iframe
+          src="https://maps.google.com/maps?saddr=Yanaka+Tokyo&daddr=Nezu+Shrine+Tokyo+to:Ueno+Park+Tokyo&dirflg=b&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=Yanaka+Tokyo&destination=Ueno+Park+Tokyo&waypoints=Nezu+Shrine+Tokyo&travelmode=bicycling" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.82rem">Open in Google Maps →</a>
     </div>
   </div>
 </section>
