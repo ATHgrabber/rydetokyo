@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book Your Bike – RYDE TOKYO</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Stripe.js — load before body -->
+  <script src="https://js.stripe.com/v3/"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,42 +20,45 @@
     /* ── HERO ── */
     .hero {
       text-align: center;
-      padding: 4rem 2rem 2rem;
-      min-height: auto;
-      display: block;
-      position: static;
-      overflow: visible;
+      padding: 4rem 2rem 1.5rem;
     }
-    .hero h1 {
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      margin-bottom: 0.5rem;
-    }
+    .hero h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: 2px; margin-bottom: 0.5rem; }
     .hero h1 span { color: #e63329; }
-    .hero p { color: #aaa; font-size: 1rem; margin-bottom: 0; }
+    .hero p { color: #aaa; font-size: 1rem; }
+
+    /* ── STEP INDICATOR ── */
+    .booking-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 1.5rem 0 0.5rem;
+    }
+    .step-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 600; color: #444;
+      transition: color 0.3s;
+    }
+    .step-item.active { color: #e63329; }
+    .step-item.done   { color: #5dd98a; }
+    .step-circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid currentColor;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 800; flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .step-item.active .step-circle { background: #e63329; border-color: #e63329; color: #fff; }
+    .step-item.done   .step-circle { background: #5dd98a; border-color: #5dd98a; color: #fff; }
+    .step-connector { width: 48px; height: 2px; background: #2a2a2a; margin: 0 0.35rem; flex-shrink: 0; }
 
     /* ── FORM CARD ── */
-    .form-wrap {
-      max-width: 680px;
-      margin: 2rem auto 4rem;
-      padding: 0 1.5rem;
-    }
-
-    .card {
-      background: #161616;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 2.5rem;
-    }
+    .form-wrap { max-width: 680px; margin: 1.5rem auto 5rem; padding: 0 1.5rem; }
+    .card { background: #161616; border: 1px solid #2a2a2a; border-radius: 12px; padding: 2.5rem; }
 
     .section-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #e63329;
-      text-transform: uppercase;
-      margin: 2rem 0 1rem;
+      font-size: 0.73rem; font-weight: 700; letter-spacing: 2px;
+      color: #e63329; text-transform: uppercase; margin: 2rem 0 1rem;
     }
     .section-title:first-child { margin-top: 0; }
 
@@ -66,96 +71,112 @@
     label .req { color: #e63329; margin-left: 2px; }
 
     input, select, textarea {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: #f0f0f0;
-      font-size: 0.95rem;
-      padding: 0.75rem 1rem;
-      transition: border-color 0.2s;
-      width: 100%;
+      background: #111; border: 1px solid #333; border-radius: 8px;
+      color: #f0f0f0; font-size: 0.95rem; padding: 0.75rem 1rem;
+      transition: border-color 0.2s; width: 100%;
     }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #e63329;
-    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #e63329; }
     select option { background: #111; }
     textarea { resize: vertical; min-height: 80px; }
 
-    /* ── ADDONS ── */
+    /* ── ADD-ONS ── */
     .addons { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
     .addon-toggle {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      background: #111;
-      border: 1px solid #2a2a2a;
-      border-radius: 8px;
-      padding: 1rem 1.2rem;
-      cursor: pointer;
-      transition: border-color 0.2s;
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: #111; border: 1px solid #2a2a2a; border-radius: 8px;
+      padding: 1rem 1.2rem; cursor: pointer; transition: border-color 0.2s;
     }
     .addon-toggle:hover { border-color: #555; }
     .addon-toggle input[type="checkbox"] { margin-top: 3px; accent-color: #e63329; width: 18px; height: 18px; flex-shrink: 0; }
     .addon-info { flex: 1; }
-    .addon-name { font-weight: 600; font-size: 0.9rem; }
-    .addon-desc { font-size: 0.78rem; color: #888; margin-top: 0.2rem; line-height: 1.4; }
+    .addon-name  { font-weight: 600; font-size: 0.9rem; }
+    .addon-desc  { font-size: 0.78rem; color: #888; margin-top: 0.2rem; line-height: 1.4; }
     .addon-price { font-size: 0.82rem; color: #e63329; font-weight: 700; margin-top: 0.3rem; }
 
-    /* ── PRICE ESTIMATE ── */
+    /* ── PRICE BOX ── */
     .price-box {
-      background: #0f0f0f;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 1.2rem 1.5rem;
-      margin-top: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #0f0f0f; border: 1px solid #333; border-radius: 8px;
+      padding: 1.2rem 1.5rem; margin-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .price-label { font-size: 0.82rem; color: #aaa; }
+    .price-label  { font-size: 0.82rem; color: #aaa; }
     .price-amount { font-size: 1.6rem; font-weight: 800; color: #fff; }
-    .price-note { font-size: 0.72rem; color: #666; margin-top: 0.2rem; }
+    .price-note   { font-size: 0.72rem; color: #666; margin-top: 0.2rem; }
 
-    /* ── SUBMIT ── */
+    /* ── BUTTONS ── */
     .submit-btn {
-      width: 100%;
-      background: #e63329;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 1rem;
-      margin-top: 2rem;
-      cursor: pointer;
+      width: 100%; background: #e63329; color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 1rem; font-weight: 700; letter-spacing: 1px;
+      padding: 1rem; margin-top: 2rem; cursor: pointer;
       transition: background 0.2s, transform 0.1s;
     }
-    .submit-btn:hover { background: #c8271e; }
-    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:hover   { background: #c8271e; }
+    .submit-btn:active  { transform: scale(0.99); }
     .submit-btn:disabled { background: #555; cursor: not-allowed; }
 
+    .back-link {
+      display: block; text-align: center; color: #555;
+      font-size: 0.8rem; cursor: pointer; margin-top: 0.75rem;
+      background: none; border: none; text-decoration: underline; width: 100%; padding: 0.5rem;
+    }
+    .back-link:hover { color: #aaa; }
+
     .fine-print {
-      font-size: 0.75rem;
-      color: #666;
-      text-align: center;
-      margin-top: 1rem;
-      line-height: 1.5;
+      font-size: 0.75rem; color: #555; text-align: center;
+      margin-top: 0.75rem; line-height: 1.5;
     }
 
-    /* ── SUCCESS / ERROR ── */
+    /* ── ALERTS ── */
     .alert {
-      border-radius: 8px;
-      padding: 1.2rem 1.5rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      display: none;
+      border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem;
+      font-size: 0.9rem; line-height: 1.5; display: none;
     }
     .alert.success { background: #0d2e1a; border: 1px solid #1a5c34; color: #5dd98a; }
     .alert.error   { background: #2e0d0d; border: 1px solid #5c1a1a; color: #f87171; }
     .alert.show    { display: block; }
+
+    /* ── STEP 2: SUMMARY ── */
+    .summary-grid {
+      background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 8px;
+      padding: 1.2rem 1.5rem; margin-bottom: 1.25rem;
+      display: grid; gap: 0.65rem;
+    }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; }
+    .summary-label { color: #888; }
+    .summary-value { font-weight: 600; color: #f0f0f0; text-align: right; max-width: 60%; }
+    .summary-divider { height: 1px; background: #2a2a2a; }
+    .summary-total .summary-label { font-size: 0.9rem; color: #aaa; }
+    .summary-total .summary-value { font-size: 1.5rem; font-weight: 800; color: #fff; }
+
+    /* ── CANCELLATION POLICY ── */
+    .cancel-policy {
+      background: #0d2219; border: 1px solid #1c4a2a; border-radius: 8px;
+      padding: 1rem 1.2rem; margin-bottom: 1.5rem;
+      font-size: 0.82rem; line-height: 1.65; color: #bbb;
+    }
+    .cancel-policy .policy-title {
+      color: #5dd98a; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.3rem;
+    }
+
+    /* ── STRIPE PAYMENT ELEMENT ── */
+    #payment-element { margin-bottom: 1.25rem; }
+
+    /* ── PAYMENT ERROR MESSAGE ── */
+    #payment-message {
+      background: #2e0d0d; border: 1px solid #5c1a1a; color: #f87171;
+      border-radius: 8px; padding: 0.8rem 1.2rem;
+      font-size: 0.85rem; margin-bottom: 1rem; display: none;
+    }
+
+    /* ── LOADING ANIMATION ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      display: inline-block; width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
+      border-top-color: #fff; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 0.4rem;
+    }
   </style>
 </head>
 <body>
@@ -165,60 +186,77 @@
 <!-- HERO -->
 <div class="hero">
   <h1>BOOK YOUR <span>RIDE</span></h1>
-  <p>We'll deliver to your hotel door — just fill in the details below.</p>
+  <p>Fill in the details, then pay securely — we'll deliver to your hotel door.</p>
 </div>
 
-<!-- FORM -->
+<!-- STEP INDICATOR -->
+<div class="booking-steps">
+  <div class="step-item active" id="step1-ind">
+    <div class="step-circle">1</div>
+    <span>Details</span>
+  </div>
+  <div class="step-connector"></div>
+  <div class="step-item" id="step2-ind">
+    <div class="step-circle">2</div>
+    <span>Payment</span>
+  </div>
+</div>
+
+<!-- CARD -->
 <div class="form-wrap">
   <div class="card">
 
+    <!-- SUCCESS / ERROR ALERTS -->
     <div id="alert-success" class="alert success">
-      ✅ <strong>Booking received!</strong> We'll WhatsApp you within a few hours to confirm your delivery details. Check your email for a summary.
+      ✅ <strong>Booking confirmed!</strong> Your payment has been processed. We'll WhatsApp you to confirm delivery time. See you on the road! 🚲
     </div>
     <div id="alert-error" class="alert error">
       ❌ <strong>Something went wrong.</strong> Please try again or contact us directly on WhatsApp.
     </div>
 
-    <form id="booking-form">
+    <!-- ═══════════════════════════════════════
+         STEP 1 — BOOKING DETAILS
+    ════════════════════════════════════════ -->
+    <div id="step1">
 
       <!-- CONTACT -->
       <div class="section-title">Your Details</div>
       <div class="row">
         <div class="field">
           <label>Full Name <span class="req">*</span></label>
-          <input type="text" name="name" placeholder="e.g. John Smith" required />
+          <input type="text" id="f-name" placeholder="e.g. John Smith" autocomplete="name" />
         </div>
       </div>
-      <div class="row two" style="margin-top:1rem;">
+      <div class="row two" style="margin-top:1rem">
         <div class="field">
           <label>Email Address <span class="req">*</span></label>
-          <input type="email" name="email" placeholder="you@email.com" required />
+          <input type="email" id="f-email" placeholder="you@email.com" autocomplete="email" />
         </div>
         <div class="field">
           <label>WhatsApp Number <span class="req">*</span></label>
-          <input type="tel" name="whatsapp" placeholder="+1 234 567 8900" required />
+          <input type="tel" id="f-whatsapp" placeholder="+1 234 567 8900" autocomplete="tel" />
         </div>
       </div>
 
       <!-- HOTEL -->
-      <div class="section-title" style="margin-top:2rem;">Delivery Location</div>
+      <div class="section-title" style="margin-top:2rem">Delivery Location</div>
       <div class="row">
         <div class="field">
           <label>Hotel Name <span class="req">*</span></label>
-          <input type="text" name="hotel" placeholder="e.g. Park Hyatt Tokyo" required />
+          <input type="text" id="f-hotel" placeholder="e.g. Park Hyatt Tokyo" />
         </div>
       </div>
 
       <!-- DATES -->
-      <div class="section-title" style="margin-top:2rem;">Rental Dates</div>
+      <div class="section-title" style="margin-top:2rem">Rental Dates</div>
       <div class="row two">
         <div class="field">
           <label>Rental Start Date <span class="req">*</span></label>
-          <input type="date" name="rentalStart" required />
+          <input type="date" id="f-start" />
         </div>
         <div class="field">
           <label>Number of Days <span class="req">*</span></label>
-          <select name="days" required id="days-select">
+          <select id="f-days">
             <option value="">-- Select --</option>
             <option value="1">1 day</option>
             <option value="2">2 days</option>
@@ -233,12 +271,12 @@
         </div>
       </div>
 
-      <!-- BIKE -->
-      <div class="section-title" style="margin-top:2rem;">Bike Selection</div>
+      <!<!-- BIKE -->
+      <div class="section-title" style="margin-top:2rem">Bike Selection</div>
       <div class="row two">
         <div class="field">
           <label>Bike Type <span class="req">*</span></label>
-          <select name="bikeType" required id="bike-select">
+          <select id="f-bike">
             <option value="">-- Select --</option>
             <option value="ebike">E-Bike (Giant Escape R E+)</option>
             <option value="city">City Cycle</option>
@@ -249,7 +287,7 @@
         </div>
         <div class="field">
           <label>Quantity <span class="req">*</span></label>
-          <select name="quantity" required id="qty-select">
+          <select id="f-qty">
             <option value="1">1 bike</option>
             <option value="2">2 bikes</option>
             <option value="3">3 bikes</option>
@@ -260,10 +298,10 @@
       </div>
 
       <!-- ADD-ONS -->
-      <div class="section-title" style="margin-top:2rem;">Add-Ons</div>
+      <div class="section-title" style="margin-top:2rem">Add-Ons</div>
       <div class="addons">
         <label class="addon-toggle">
-          <input type="checkbox" name="bikeValet" id="valet-check" />
+          <input type="checkbox" id="f-valet" />
           <div class="addon-info">
             <div class="addon-name">★ Bike Valet</div>
             <div class="addon-desc">Going for dinner and drinks? WhatsApp us your location — we'll pick up the bike and have it back at your hotel, ready for the morning.</div>
@@ -271,7 +309,7 @@
           </div>
         </label>
         <label class="addon-toggle">
-          <input type="checkbox" name="damageCover" id="damage-check" />
+          <input type="checkbox" id="f-damage" />
           <div class="addon-info">
             <div class="addon-name">Damage Coverage</div>
             <div class="addon-desc">Peace of mind for minor scrapes and scratches. Covers accidental damage during your rental period.</div>
@@ -280,126 +318,57 @@
         </label>
       </div>
 
-      <!-- PRICE ESTIMATE -->
+      <!-- PRICE BOX -->
       <div class="price-box">
         <div>
-          <div class="price-label">Estimated Total</div>
-          <div class="price-note">Campaign rate · final price confirmed on WhatsApp</div>
+          <div class="price-label">Total</div>
+          <div class="price-note">Includes all charges · paid now</div>
         </div>
-        <div style="text-align:right;">
+        <div style="text-align:right">
           <div class="price-amount" id="price-display">¥—</div>
         </div>
       </div>
 
       <!-- NOTES -->
-      <div class="section-title" style="margin-top:2rem;">Notes (Optional)</div>
+      <div class="section-title" style="margin-top:2rem">Notes (Optional)</div>
       <div class="field">
-        <textarea name="notes" placeholder="Preferred delivery time, special requests, accessibility needs..."></textarea>
+        <textarea id="f-notes" placeholder="Preferred delivery time, special requests, accessibility needs..."></textarea>
       </div>
 
-      <button type="submit" class="submit-btn" id="submit-btn">REQUEST BOOKING →</button>
-      <p class="fine-print">We'll confirm your booking via WhatsApp within a few hours. No payment required now.</p>
+      <button type="button" id="continue-btn" class="submit-btn" style="margin-top:2rem">
+        CONTINUE TO PAYMENT →
+      </button>
+      <p class="fine-print">Free cancellation up to 7 days before your rental date · Secure payment via Stripe</p>
 
-    </form>
-  </div>
-</div>
+    </div><!-- /step1 -->
 
-<script>
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxuSdJq8hwTATZNzH5uBQFdNjmdPTtNwK-BGLfa03e5SKBjCU_za7kGnZGV-zgI8afXXw/exec';
 
-  // ── PRICE CALCULATOR ──
-  const RATES = {
-    ebike:        [5000, 4500, 4200, 4000, 4000, 4000, 3500],
-    city:         [3000, 3000, 3000, 3000, 3000, 3000, 3000],
-    kids_balance: [1500, 1500, 1500, 1500, 1500, 1500, 1500],
-    kids_city:    [2000, 2000, 2000, 2000, 2000, 2000, 2000],
-    kids_junior:  [2500, 2500, 2500, 2500, 2500, 2500, 2500],
-  };
+    <!-- ═══════════════════════════════════════
+         STEP 2 — PAYMENT
+    ════════════════════════════════════════ -->
+    <div id="step2" style="display:none">
 
-  function getRate(bikeType, days) {
-    const rates = RATES[bikeType];
-    if (!rates) return 0;
-    const idx = Math.min(days - 1, 6);
-    return rates[idx];
-  }
+      <div class="section-title">Booking Summary</div>
+      <div class="summary-grid" id="summary"></div>
 
-  function calcPrice() {
-    const days     = parseInt(document.getElementById('days-select').value) || 0;
-    const bikeType = document.getElementById('bike-select').value;
-    const qty      = parseInt(document.getElementById('qty-select').value) || 1;
-    const valet    = document.getElementById('valet-check').checked;
-    const damage   = document.getElementById('damage-check').checked;
+      <div class="cancel-policy">
+        <div class="policy-title">✅ Free Cancellation Policy</div>
+        Cancel at least <strong>7 days before</strong> your rental start date for a full refund.
+        Cancellations within 7 days of the start date are non-refundable.
+      </div>
 
-    if (!days || !bikeType) {
-      document.getElementById('price-display').textContent = '¥—';
-      return;
-    }
+      <div class="section-title">Payment Details</div>
+      <div id="payment-element"></div>
+      <div id="payment-message"></div>
 
-    let total = getRate(bikeType, days) * days * qty;
-    if (damage) total += 500 * days * qty;
-    if (valet)  total += 1000;
+      <button id="pay-btn" class="submit-btn">PAY ¥— →</button>
+      <button class="back-link" id="back-btn">← Edit booking details</button>
 
-    document.getElementById('price-display').textContent =
-      '¥' + total.toLocaleString();
-  }
+    </div><!-- /step2 -->
 
-  ['days-select','bike-select','qty-select','valet-check','damage-check']
-    .forEach(id => document.getElementById(id).addEventListener('change', calcPrice));
+  </div><!-- /card -->
+</div><!-- /form-wrap -->
 
-  // ── SET MIN DATES ──
-  const today = new Date().toISOString().split('T')[0];
-  document.querySelector('[name="rentalStart"]').min = today;
-
-  // ── FORM SUBMIT ──
-  document.getElementById('booking-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('submit-btn');
-    const successEl = document.getElementById('alert-success');
-    const errorEl   = document.getElementById('alert-error');
-
-    successEl.classList.remove('show');
-    errorEl.classList.remove('show');
-    btn.disabled = true;
-    btn.textContent = 'SENDING…';
-
-    const form = e.target;
-    const payload = {
-      name:        form.name.value.trim(),
-      email:       form.email.value.trim(),
-      whatsapp:    form.whatsapp.value.trim(),
-      hotel:       form.hotel.value.trim(),
-      rentalStart: form.rentalStart.value,
-      days:        form.days.value,
-      bikeType:    form.bikeType.value,
-      quantity:    form.quantity.value,
-      bikeValet:   form.bikeValet.checked,
-      damageCover: form.damageCover.checked,
-      notes:       form.notes.value.trim(),
-    };
-
-    try {
-      const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-      if (json.success) {
-        successEl.classList.add('show');
-        form.reset();
-        document.getElementById('price-display').textContent = '¥—';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        throw new Error(json.error || 'Unknown error');
-      }
-    } catch(err) {
-      console.error(err);
-      errorEl.classList.add('show');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'REQUEST BOOKING →';
-    }
-  });
-</script>
 
 <!-- Floating WhatsApp button -->
 <a href="https://wa.me/819000000000?text=Hi%20RYDE%20TOKYO%21%20I%27d%20like%20to%20enquire%20about%20booking."
@@ -411,6 +380,304 @@
 </a>
 
 <div id="footer-placeholder"></div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  CONFIG — set your keys here
+// ════════════════════════════════════════════════════════
+const WEB_APP_URL  = 'https://script.google.com/macros/s/AKfycbxuSdJq8hwTATZNzH5uBQFdNjmdPTtNwK-BGLfa03e5SKBjCU_za7kGnZGV-zgI8afXXw/exec';
+const STRIPE_KEY   = 'pk_live_REPLACE_WITH_YOUR_STRIPE_PUBLISHABLE_KEY'; // ← replace
+
+const stripe = Stripe(STRIPE_KEY);
+let   stripeElements = null;
+let   totalAmount    = 0;
+let   booking        = {};
+
+// ── PRICE RATES (¥ per day) ──
+const RATES = {
+  ebike:        [5000, 4500, 4200, 4000, 4000, 4000, 3500],
+  city:         [3000, 3000, 3000, 3000, 3000, 3000, 3000],
+  kids_balance: [1500, 1500, 1500, 1500, 1500, 1500, 1500],
+  kids_city:    [2000, 2000, 2000, 2000, 2000, 2000, 2000],
+  kids_junior:  [2500, 2500, 2500, 2500, 2500, 2500, 2500],
+};
+const BIKE_NAMES = {
+  ebike:        'E-Bike (Giant Escape R E+)',
+  city:         'City Cycle',
+  kids_balance: 'Kids Balance Bike',
+  kids_city:    'Kids City Bike',
+  kids_junior:  'Junior Bike',
+};
+
+function calcTotal() {
+  const days   = parseInt(document.getElementById('f-days').value) || 0;
+  const type   = document.getElementById('f-bike').value;
+  const qty    = parseInt(document.getElementById('f-qty').value) || 1;
+  const valet  = document.getElementById('f-valet').checked;
+  const damage = document.getElementById('f-damage').checked;
+
+  if (!days || !type) {
+    document.getElementById('price-display').textContent = '¥—';
+    return 0;
+  }
+  const rate = RATES[type][Math.min(days - 1, 6)];
+  let total  = rate * days * qty;
+  if (damage) total += 500 * days * qty;
+  if (valet)  total += 1000;
+
+  document.getElementById('price-display').textContent = '¥' + total.toLocaleString();
+  return total;
+}
+
+['f-days','f-bike','f-qty'].forEach(id =>
+  document.getElementById(id).addEventListener('change', calcTotal));
+['f-valet','f-damage'].forEach(id =>
+  document.getElementById(id).addEventListener('change', calcTotal));
+
+// Set minimum date to today
+document.getElementById('f-start').min = new Date().toISOString().split('T')[0];
+
+
+// ── STEP 1 → STEP 2: CONTINUE BUTTON ──
+document.getElementById('continue-btn').addEventListener('click', async () => {
+  // Validate required fields
+  const fields = [
+    { id: 'f-name',    label: 'Full Name' },
+    { id: 'f-email',   label: 'Email Address' },
+    { id: 'f-whatsapp',label: 'WhatsApp Number' },
+    { id: 'f-hotel',   label: 'Hotel Name' },
+    { id: 'f-start',   label: 'Rental Start Date' },
+    { id: 'f-days',    label: 'Number of Days' },
+    { id: 'f-bike',    label: 'Bike Type' },
+  ];
+  for (const f of fields) {
+    const el = document.getElementById(f.id);
+    if (!el.value.trim()) {
+      el.focus();
+      el.style.borderColor = '#e63329';
+      setTimeout(() => el.style.borderColor = '', 2000);
+      alert(`Please fill in: ${f.label}`);
+      return;
+    }
+  }
+
+  totalAmount = calcTotal();
+  if (!totalAmount) {
+    alert('Please select bike type and number of days to calculate the price.');
+    return;
+  }
+
+  // Collect booking data
+  booking = {
+    name:        document.getElementById('f-name').value.trim(),
+    email:       document.getElementById('f-email').value.trim(),
+    whatsapp:    document.getElementById('f-whatsapp').value.trim(),
+    hotel:       document.getElementById('f-hotel').value.trim(),
+    rentalStart: document.getElementById('f-start').value,
+    days:        parseInt(document.getElementById('f-days').value),
+    bikeType:    document.getElementById('f-bike').value,
+    bikeName:    BIKE_NAMES[document.getElementById('f-bike').value] || document.getElementById('f-bike').value,
+    quantity:    parseInt(document.getElementById('f-qty').value) || 1,
+    bikeValet:   document.getElementById('f-valet').checked,
+    damageCover: document.getElementById('f-damage').checked,
+    notes:       document.getElementById('f-notes').value.trim(),
+    totalAmount,
+  };
+
+  const btn = document.getElementById('continue-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Loading…';
+  document.getElementById('alert-error').classList.remove('show');
+
+  try {
+    // Create Stripe PaymentIntent via Google Apps Script
+    const res  = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      body:   JSON.stringify({ action: 'createPaymentIntent', amount: totalAmount, booking }),
+    });
+    const data = await res.json();
+    if (!data.clientSecret) throw new Error(data.error || 'No client secret returned');
+
+    // Save booking to sessionStorage in case 3DS redirect is needed
+    sessionStorage.setItem('rydeBooking', JSON.stringify({ booking, totalAmount }));
+
+    // Initialize Stripe Elements with dark theme
+    stripeElements = stripe.elements({
+      clientSecret: data.clientSecret,
+      appearance: {
+        theme: 'night',
+        variables: {
+          colorPrimary:       '#e63329',
+          colorBackground:    '#111111',
+          colorText:          '#f0f0f0',
+          colorTextSecondary: '#888888',
+          borderRadius:       '8px',
+          fontFamily:         'Segoe UI, Arial, sans-serif',
+          spacingUnit:        '4px',
+        },
+        rules: {
+          '.Input': {
+            border:  '1px solid #333',
+            padding: '12px 16px',
+          },
+          '.Input:focus': {
+            border:     '1px solid #e63329',
+            boxShadow:  'none',
+          },
+          '.Label': { fontSize: '0.82rem', color: '#aaa', fontWeight: '500' },
+          '.Tab':   { border: '1px solid #333', background: '#111' },
+          '.Tab:hover':     { background: '#1a1a1a' },
+          '.Tab--selected': { border: '1px solid #e63329' },
+        },
+      },
+    });
+
+    const payEl = stripeElements.create('payment', { layout: 'tabs' });
+    payEl.mount('#payment-element');
+
+    // Build booking summary
+    buildSummary();
+
+    // Transition to step 2
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+    document.getElementById('step1-ind').classList.remove('active');
+    document.getElementById('step1-ind').classList.add('done');
+    document.getElementById('step2-ind').classList.add('active');
+    document.getElementById('pay-btn').textContent = `PAY ¥${totalAmount.toLocaleString()} →`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('alert-error').classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'CONTINUE TO PAYMENT →';
+  }
+});
+
+
+// ── BUILD SUMMARY ──
+function buildSummary() {
+  const rows = [
+    ['Name',       booking.name],
+    ['Hotel',      booking.hotel],
+    ['Start Date', booking.rentalStart],
+    ['Duration',   booking.days + ' day' + (booking.days > 1 ? 's' : '')],
+    ['Bike',       booking.bikeName + (booking.quantity > 1 ? ` × ${booking.quantity}` : '')],
+  ];
+  if (booking.bikeValet)   rows.push(['Bike Valet',       '✓ Added (+¥1,000)']);
+  if (booking.damageCover) rows.push(['Damage Coverage',  '✓ Added (+¥500/day)']);
+
+  document.getElementById('summary').innerHTML =
+    rows.map(([l, v]) =>
+      `<div class="summary-row">
+        <span class="summary-label">${l}</span>
+        <span class="summary-value">${v}</span>
+      </div>`
+    ).join('') + `
+    <div class="summary-divider"></div>
+    <div class="summary-row summary-total">
+      <span class="summary-label">Total</span>
+      <span class="summary-value">¥${totalAmount.toLocaleString()}</span>
+    </div>`;
+}
+
+
+// ── BACK BUTTON ──
+document.getElementById('back-btn').addEventListener('click', () => {
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step1-ind').classList.add('active');
+  document.getElementById('step1-ind').classList.remove('done');
+  document.getElementById('step2-ind').classList.remove('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+
+// ── PAY BUTTON ──
+document.getElementById('pay-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('pay-btn');
+  const msg = document.getElementById('payment-message');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Processing…';
+  msg.style.display = 'none';
+
+  const { error, paymentIntent } = await stripe.confirmPayment({
+    elements: stripeElements,
+    confirmParams: {
+      // Only used if 3DS redirect is triggered
+      return_url: window.location.origin + window.location.pathname,
+      payment_method_data: {
+        billing_details: { name: booking.name, email: booking.email },
+      },
+    },
+    redirect: 'if_required', // Stay on page when no redirect needed
+  });
+
+  if (error) {
+    // Show Stripe's error message (e.g. "Your card was declined.")
+    msg.textContent = error.message;
+    msg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = `PAY ¥${totalAmount.toLocaleString()} →`;
+  } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+    await onPaymentSuccess(paymentIntent.id);
+  }
+});
+
+
+// ── ON PAYMENT SUCCESS ──
+async function onPaymentSuccess(paymentIntentId) {
+  // Save booking details to Google Sheets via Apps Script
+  try {
+    await fetch(WEB_APP_URL, {
+      method: 'POST',
+      body:   JSON.stringify({ action: 'saveBooking', ...booking, paymentIntentId }),
+    });
+  } catch (e) {
+    console.warn('Could not save booking record:', e);
+    // Payment still succeeded — don't block the success UI
+  }
+
+  sessionStorage.removeItem('rydeBooking');
+
+  // Show success, hide payment step
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('alert-success').classList.add('show');
+  document.getElementById('step2-ind').classList.remove('active');
+  document.getElementById('step1-ind').classList.remove('done');
+  document.getElementById('step1-ind').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+// ── HANDLE 3DS REDIRECT RETURN ──
+// Stripe may redirect back here after 3DS authentication
+;(() => {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('redirect_status');
+  const piId   = params.get('payment_intent');
+  if (!status || !piId) return;
+
+  // Restore booking data from sessionStorage
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('rydeBooking') || '{}');
+    if (saved.booking) { booking = saved.booking; totalAmount = saved.totalAmount; }
+  } catch(e) {}
+
+  if (status === 'succeeded') {
+    onPaymentSuccess(piId);
+  } else {
+    document.getElementById('alert-error').classList.add('show');
+  }
+
+  // Clean the URL
+  window.history.replaceState({}, '', window.location.pathname);
+})();
+</script>
+
 <script src="js/nav.js"></script>
 <script src="js/main.js"></script>
 </body>
